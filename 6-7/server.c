@@ -141,7 +141,7 @@ void main(int argc, char *argv[])
    listen(sockfd, 5);
 
    for (;;)
-   {
+   { // infinite loop
       len = sizeof(cl_addr);
       newsockfd = accept(sockfd, (struct sockaddr *)&cl_addr, &len);
       if (newsockfd < 0)
@@ -153,9 +153,12 @@ void main(int argc, char *argv[])
 
       inet_ntop(AF_INET, &(cl_addr.sin_addr), clientAddr, CLADDR_LEN);
       if ((childpid = fork()) == 0)
-      {
+      { // creating a child process
 
          close(sockfd);
+         // stop listening for new connections by the main process.
+         // the child will continue to listen.
+         // the main process now handles the connected client.
 
          mutex = sem_open(SEM, O_CREAT, S_IRUSR | S_IWUSR, 1);
 
