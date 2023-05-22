@@ -77,6 +77,7 @@ void *weapon(void *number)
         }
         if (buffer[0] == '9')
         {
+            field2[0] = 1;
             sem_post(&mutex);
             break;
         } else if (count2 > (int)(buffer[0] - '0')) {
